@@ -6,3 +6,7 @@
 6. git commit -m 'test'
 7. git remote add origin git@github.com/muhamadalfarisy/go-say-hello
 8. git push origin master
+
+- git release version
+1. git tag v1.0.0
+2. git push origin v1.0.0
