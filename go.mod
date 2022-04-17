@@ -1,3 +1,3 @@
-module github.com/muhamadalfarisy/go-say-hello
+module github.com/muhamadalfarisy/go-say-hello/v2
 
 go 1.17
