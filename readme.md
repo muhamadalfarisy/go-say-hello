@@ -1,5 +1,5 @@
 1. create repo , copy link repo github.com/muhamadalfarisy/go-say-hello
-2. go mod init <paste>
+2. go mod init paste
 3. git init
 4. touch main.go
 5. git add. 
