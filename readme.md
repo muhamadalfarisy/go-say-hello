@@ -4,7 +4,7 @@
 4. touch main.go
 5. git add. 
 6. git commit -m 'test'
-7. git remote add origin git@github.com/muhamadalfarisy/go-say-hello
+7. git remote add origin git@github.com/muhamadalfarisy/go-say-hello.git
 8. git push origin master
 
 - git release version
