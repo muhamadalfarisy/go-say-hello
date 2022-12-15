@@ -44,7 +44,7 @@ func TestAddOne(t *testing.T) {
 		{
 			name: "test",
 			args: args{num: 1},
-			want: 2,
+			want: 3,
 		},
 	}
 	for _, tt := range tests {
