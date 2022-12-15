@@ -13,7 +13,7 @@ func TestSayHello(t *testing.T) {
 	}{
 		// TODO: Add test cases.
 		{
-			name: "test case 1",
+			name: "test case 1:",
 			args: args{
 				nama: "1",
 			},
