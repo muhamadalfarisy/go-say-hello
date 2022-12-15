@@ -1,0 +1,61 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: File Changes
+
+on:
+  pull_request:
+    branches: [ "master" ]
+jobs:
+  file-changes:
+    runs-on: [runnerset=default-runners]
+    if: github.actor != 'tkpdgqlbot'
+    steps:
+      - name: Configure private git
+        env:
+          BOT_NAME: tkpdgqlbot
+          BOT_PAT: ${{ secrets.BOT_PAT }}
+        run: git config --global url."https://$BOT_NAME:$BOT_PAT@github.com".insteadOf "https://github.com"
+
+      - name: Checkout branch
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.BOT_PAT }}
+
+      - name: Get file changes
+        id: get-file-changes
+        run: |
+          git fetch origin ${{ github.base_ref }}
+
+          diffFiles=$(git diff --name-status origin/${{ github.base_ref }})
+          diffFiles="${diffFiles//'%'/'<br>'}"
+          diffFiles="${diffFiles//$'\n'/'<br>'}"
+          diffFiles="${diffFiles//$'\r'/'<br>'}"
+          echo "files=$diffFiles" >> $GITHUB_OUTPUT
+
+          diffStats=$(git diff --shortstat origin/${{ github.base_ref }})
+          echo "stats=$diffStats" >> $GITHUB_OUTPUT
+
+      - name: Report failure
+        if: failure()
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          token: ${{ secrets.BOT_PAT }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ### :x: File Changes 
+            failed to get file changes
+
+      - name: Report result
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          token: ${{ secrets.BOT_PAT }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ### File Changes
+            ${{ steps.get-file-changes.outputs.stats }}
+
+            <details>
+            <summary>Details</summary>
+            <pre>${{ steps.get-file-changes.outputs.files }}</pre>
+            </details>
